@@ -1,0 +1,1 @@
+const transactionsController = require('./controllers/transactionsController');
