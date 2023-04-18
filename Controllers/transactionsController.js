@@ -1,7 +1,7 @@
 const express = require("express");
 const transactions = express.Router();
 const transactionsArray = require("../models/transactions.js");
-const { transactionsValidator } = require("../models/validators.js");
+// const { transactionsValidator } = require("../models/validators.js");
 
 // GET ALL TRANSACTIONS
 transactions.get("/", (req, res) => {
@@ -11,8 +11,8 @@ transactions.get("/", (req, res) => {
 
 // POST ONE TRANSACTION
 transactions.post("/", (req, res) => {
-  res.json(transactionsArray.push(req.body));
-  res.status(201).json(transactions[transactionsArray.length -1]);
+  transactionsArray.push(req.body);
+  res.status(201).json(transactionsArray[transactionsArray.length -1]);
 });
 
 
@@ -35,9 +35,10 @@ transactions.get("/:index", (req, res) => {
   //   }
   // }); 
 //Edit one transaction
-transactions.put("/:index", transactionsValidator, (req, res) => {
+transactions.put("/:index",(req, res) => {
+  const { index } = req.params;
   if (transactionsArray[index]) {
-    res.json(transactionsArray[index])
+    transactionsArray[index] = req.body;
     res.status(200).json(transactionsArray[index])
   } else {
     res.status(404).json({ error: `Transaction with index ${index} not found` });
